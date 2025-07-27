@@ -3,13 +3,9 @@ import TodoItem from "./TodoItem"
 import './TodoList.css'
 
 function TodoList(){
-    const [todos, setTodos] = useState([])
+    const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
     const [value, setValue] = useState('')
-
-    useEffect(() => {
-        const savedTodos = JSON.parse(localStorage.getItem('todos')) || []
-        setTodos(savedTodos)
-    }, [])
+    const [theme, setTheme] = useState('')
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
@@ -67,9 +63,15 @@ function TodoList(){
         return allCompleted ? 'Убрать отметку всем' : 'Отметить все завершенными'
     }
 
+    function toggleTheme () {
+        theme === '' ? setTheme('dark') : setTheme('')
+
+    }
+
     return(
-        <div className="todo-container">
+        <div className={`todo-container ${theme} `}>
             <div className="todo-header">
+                <button className="toggleThemeBtn" onClick={()=>toggleTheme()}>{theme === '' ? '🌞': '🌙'}</button>
                 <h1>Мои задачи</h1>
                 <div className="todo-stats">
                     <span className="total-count">Всего: {todos.length}</span>

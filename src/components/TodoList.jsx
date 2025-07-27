@@ -40,7 +40,17 @@ function TodoList(){
         )
     }
 
-    // Исправленная функция удаления завершенных задач
+    function allToggleTodo(){
+        const allCompleted = todos.every(todo => todo.complete)
+        
+        setTodos(prevTodos => 
+            prevTodos.map(todo => ({
+                ...todo,
+                complete: !allCompleted 
+            }))
+        )
+    }
+
     function allDel(){
         setTodos(prevTodos => prevTodos.filter(todo => !todo.complete))
     }
@@ -49,6 +59,12 @@ function TodoList(){
         if(e.key === 'Enter') {
             addTodo()
         }
+    }
+
+    const getAllToggleText = () => {
+        if (todos.length === 0) return ''
+        const allCompleted = todos.every(todo => todo.complete)
+        return allCompleted ? 'Убрать отметку всем' : 'Отметить все завершенными'
     }
 
     return(
@@ -100,11 +116,19 @@ function TodoList(){
                 )}
             </div>
             
-            {todos.some(todo => todo.complete) && (
-                <button className="allDeleteBtn" onClick={allDel}>
-                    Удалить все завершенные
-                </button>
-            )}
+            <div className="buttons">
+                {todos.some(todo => todo.complete) && (
+                    <button className="allDeleteBtn" onClick={allDel}>
+                        Удалить все завершенные
+                    </button>
+                )}
+
+                {todos.length > 0 && (
+                    <button className="allToggleBtn" onClick={allToggleTodo}>
+                        {getAllToggleText()}
+                    </button>
+                )}
+            </div>
         </div>
     )
 }

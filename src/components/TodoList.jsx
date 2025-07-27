@@ -6,34 +6,43 @@ function TodoList(){
     const [todos, setTodos] = useState([])
     const [value, setValue] = useState('')
 
-    useEffect(()=>{
-        setTodos(JSON.parse(localStorage.getItem('todos')))
+    useEffect(() => {
+        const savedTodos = JSON.parse(localStorage.getItem('todos')) || []
+        setTodos(savedTodos)
     }, [])
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos))
+    }, [todos])
 
     function addTodo(){
         if(!value.trim()) return
 
-        let obj = {
+        const obj = {
             id: Date.now(),
             name: value,
             complete: false
         }
 
-        setTodos([...todos, obj])
+        setTodos(prevTodos => [...prevTodos, obj])
         setValue('')
     }
 
     function delTodo(id){
-        setTodos(todos.filter(todo => todo.id !== id))
+        setTodos(prevTodos => prevTodos.filter(todo => todo.id !== id))
     }
 
     function toggleTodo(id) {
-        setTodos(todos.map(todo => 
-            todo.id === id ? {...todo, complete: !todo.complete} : todo
-        ))
+        setTodos(prevTodos => 
+            prevTodos.map(todo => 
+                todo.id === id ? {...todo, complete: !todo.complete} : todo
+            )
+        )
     }
-    function allDel (){
-        setTodos(todos.filter(todo=> todo.complete ? !todo.complete : todo   ))
+
+    // Исправленная функция удаления завершенных задач
+    function allDel(){
+        setTodos(prevTodos => prevTodos.filter(todo => !todo.complete))
     }
 
     function handleKeyPress(e) {
@@ -41,12 +50,6 @@ function TodoList(){
             addTodo()
         }
     }
-
-    useEffect(()=>{
-        if(!todos.length) return
-
-        localStorage.setItem('todos', JSON.stringify(todos))
-    }, [todos])
 
     return(
         <div className="todo-container">
@@ -71,7 +74,7 @@ function TodoList(){
                         className="todo-input"
                     />
                     <button onClick={addTodo} className="add-button">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
                             <path d="M12 5V19M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
                         </svg>
                     </button>
@@ -96,7 +99,12 @@ function TodoList(){
                     </div>
                 )}
             </div>
-            <button className="allDeleteBtn" onClick={()=>allDel()}>Удалить все завершенные</button>
+            
+            {todos.some(todo => todo.complete) && (
+                <button className="allDeleteBtn" onClick={allDel}>
+                    Удалить все завершенные
+                </button>
+            )}
         </div>
     )
 }

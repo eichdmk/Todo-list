@@ -121,7 +121,6 @@
     color: rgba(255, 255, 255, 0.6);
 }
 
-/* Todo Item Styles */
 .todoCard {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
@@ -215,7 +214,6 @@
     }
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .todo-container {
         margin: 1rem;
@@ -258,4 +256,5 @@
     background-color: #ff6b6b;
     color: white;
     margin-bottom: 10px;
+    
 }

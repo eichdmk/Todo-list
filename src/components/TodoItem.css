@@ -1,4 +1,3 @@
-/* Todo Item Styles */
 .todoCard {
     background: rgba(255, 255, 255, 0.95);
     border-radius: 15px;
@@ -106,7 +105,6 @@
     }
 }
 
-/* Loading animation for new items */
 .todoCard.loading {
     animation: pulse 1.5s ease-in-out infinite alternate;
 }
@@ -116,7 +114,6 @@
     to { opacity: 1; }
 }
 
-/* Focus states for accessibility */
 .todoCard input[type="checkbox"]:focus {
     outline: 2px solid #4facfe;
     outline-offset: 2px;
@@ -127,7 +124,6 @@
     outline-offset: 2px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .todoCard li {
         padding: 1rem 1.2rem;

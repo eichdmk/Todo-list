@@ -1,10 +1,14 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import TodoItem from "./TodoItem"
 import './TodoList.css'
 
 function TodoList(){
     const [todos, setTodos] = useState([])
     const [value, setValue] = useState('')
+
+    useEffect(()=>{
+        setTodos(JSON.parse(localStorage.getItem('todos')))
+    }, [])
 
     function addTodo(){
         if(!value.trim()) return
@@ -28,12 +32,21 @@ function TodoList(){
             todo.id === id ? {...todo, complete: !todo.complete} : todo
         ))
     }
+    function allDel (){
+        setTodos(todos.filter(todo=> todo.complete ? !todo.complete : todo   ))
+    }
 
     function handleKeyPress(e) {
         if(e.key === 'Enter') {
             addTodo()
         }
     }
+
+    useEffect(()=>{
+        if(!todos.length) return
+
+        localStorage.setItem('todos', JSON.stringify(todos))
+    }, [todos])
 
     return(
         <div className="todo-container">
@@ -83,6 +96,7 @@ function TodoList(){
                     </div>
                 )}
             </div>
+            <button className="allDeleteBtn" onClick={()=>allDel()}>Удалить все завершенные</button>
         </div>
     )
 }

@@ -87,6 +87,13 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
     min-width: 0;
+
+    color: #333 !important;
+    caret-color: #000 !important;
+    -webkit-text-fill-color: #333 !important;
+    background-clip: padding-box !important;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 .todo-input:focus {

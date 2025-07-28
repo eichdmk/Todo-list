@@ -5,11 +5,15 @@ import './TodoList.css'
 function TodoList(){
     const [todos, setTodos] = useState(JSON.parse(localStorage.getItem('todos')) || [])
     const [value, setValue] = useState('')
-    const [theme, setTheme] = useState('')
+    const [theme, setTheme] = useState(localStorage.getItem('theme'))
 
     useEffect(() => {
         localStorage.setItem('todos', JSON.stringify(todos))
     }, [todos])
+
+    useEffect(()=>{
+        localStorage.setItem('theme', theme)
+    }, [theme])
 
     function addTodo(){
         if(!value.trim()) return
